@@ -15,20 +15,15 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            tools:layout_editor_absoluteX="169dp"
-            tools:layout_editor_absoluteY="97dp" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/keyboard"
             android:layout_width="409dp"
             android:layout_height="216dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="493dp">
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <TableRow
                 android:id="@+id/keyboardRow1"
@@ -45,7 +40,7 @@
 
                 <Button
                     android:id="@+id/keyboard_Q"
-                    android:layout_width="34dp"
+                    android:layout_width="39dp"
                     android:layout_height="54dp"
                     android:backgroundTint="#BFBFBF"
                     android:padding="2dp"
@@ -56,7 +51,7 @@
                     app:cornerRadius="25px" />
 
                 <Button
-                    android:id="@+id/keyboard_E"
+                    android:id="@+id/keyboard_W"
                     android:layout_width="34dp"
                     android:layout_height="54dp"
                     android:backgroundTint="#BFBFBF"
@@ -81,7 +76,7 @@
                     tools:text="E" />
 
                 <Button
-                    android:id="@+id/keyboard_T"
+                    android:id="@+id/keyboard_R"
                     android:layout_width="34dp"
                     android:layout_height="54dp"
                     android:backgroundTint="#BFBFBF"
@@ -100,12 +95,12 @@
                     android:padding="2dp"
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
-                    android:text="Q"
+                    android:text="T"
                     android:textAlignment="center"
                     app:cornerRadius="25px" />
 
                 <Button
-                    android:id="@+id/keyboard_U"
+                    android:id="@+id/keyboard_Y"
                     android:layout_width="34dp"
                     android:layout_height="54dp"
                     android:backgroundTint="#BFBFBF"
@@ -129,7 +124,7 @@
                     app:cornerRadius="25px" />
 
                 <Button
-                    android:id="@+id/keyboard_O"
+                    android:id="@+id/keyboard_I"
                     android:layout_width="34dp"
                     android:layout_height="54dp"
                     android:backgroundTint="#BFBFBF"
@@ -431,6 +426,41 @@
                     app:iconSize="40dp" />
             </TableRow>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/debugMenu"
+            android:layout_width="183dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="225dp"
+            android:layout_marginBottom="420dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/keyboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/debugHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debug Info"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/debug_AttemptCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AttemptCount: 0" />
+
+            <TextView
+                android:id="@+id/debug_AttemptBuffer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AttemptBuffer: -empty-" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
