@@ -7,15 +7,448 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="68dp"
-        android:layout_height="61dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="108dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".GameActivity"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="TextView"
+            tools:layout_editor_absoluteX="169dp"
+            tools:layout_editor_absoluteY="97dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/keyboard"
+            android:layout_width="409dp"
+            android:layout_height="216dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="493dp">
+
+            <TableRow
+                android:id="@+id/keyboardRow1"
+                android:layout_width="356dp"
+                android:layout_height="63dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="25dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/keyboardRow2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/keyboard_Q"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Q"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_E"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="W"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_E"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="E"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px"
+                    tools:text="E" />
+
+                <Button
+                    android:id="@+id/keyboard_T"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="R"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_T"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Q"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_U"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Y"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_U"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="U"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_O"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="I"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_O"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="O"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_P"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="P"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/keyboardRow2"
+                android:layout_width="316dp"
+                android:layout_height="63dp"
+                android:layout_marginStart="39dp"
+                android:layout_marginEnd="39dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/keyboardRow3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/keyboardRow1">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/keyboard_A"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="A"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_S"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="S"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_D"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="D"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_F"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="F"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_G"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="G"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_H"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="H"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_J"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="J"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_K"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="K"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_L"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="L"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/keyboardRow3"
+                android:layout_width="351dp"
+                android:layout_height="66dp"
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="13dp"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/keyboardRow2">
+
+                <Button
+                    android:id="@+id/keyboard_ENTER"
+                    android:layout_width="53dp"
+                    android:layout_height="53dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Enter"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_Z"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Z"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_X"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="X"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_C"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="C"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_V"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="V"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_B"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="B"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_N"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="N"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_M"
+                    android:layout_width="34dp"
+                    android:layout_height="54dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="M"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px" />
+
+                <Button
+                    android:id="@+id/keyboard_BACKSPACE"
+                    android:layout_width="48dp"
+                    android:layout_height="53dp"
+                    android:backgroundTint="#BFBFBF"
+                    android:backgroundTintMode="add"
+                    android:drawableTint="#000000"
+                    android:foregroundTint="#0B0B0B"
+                    android:padding="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:textAlignment="center"
+                    app:cornerRadius="25px"
+                    app:icon="@drawable/backspace"
+                    app:iconPadding="2dp"
+                    app:iconSize="40dp" />
+            </TableRow>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/keyboard_Q"
+        android:layout_width="34dp"
+        android:layout_height="54dp"
+        android:layout_marginStart="30dp"
+        android:backgroundTint="#BFBFBF"
+        android:padding="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="Q"
+        android:textAlignment="center"
+        app:cornerRadius="25px"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main"
+        tools:layout_editor_absoluteY="446dp"
+        tools:text="Q" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
