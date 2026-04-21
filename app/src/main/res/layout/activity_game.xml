@@ -11,19 +11,23 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:outlineProvider="none"
         tools:context=".GameActivity"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-58dp">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/keyboard"
             android:layout_width="409dp"
             android:layout_height="216dp"
             android:layout_marginEnd="2dp"
-            android:layout_marginBottom="22dp"
+            android:layout_marginBottom="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/attemptContainer">
 
             <TableRow
                 android:id="@+id/keyboardRow1"
@@ -428,15 +432,515 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/debugMenu"
-            android:layout_width="183dp"
-            android:layout_height="70dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="225dp"
-            android:layout_marginBottom="420dp"
+            android:id="@+id/attemptContainer"
+            android:layout_width="326dp"
+            android:layout_height="459dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="27dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/keyboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/debugMenu">
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row1"
+                android:layout_width="319dp"
+                android:layout_height="76dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row1_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row1_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row1_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row1_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row1_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row2"
+                android:layout_width="319dp"
+                android:layout_height="76dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row2_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="B"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row2_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row2_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row2_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row2_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="B"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row3"
+                android:layout_width="319dp"
+                android:layout_height="76dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row3_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row3_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row3_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row3_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row3_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row4"
+                android:layout_width="319dp"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row4_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row4_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row4_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row4_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row4_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row5"
+                android:layout_width="319dp"
+                android:layout_height="76dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row5_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row5_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row5_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row5_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row5_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/attemptContainer_row6"
+                android:layout_width="319dp"
+                android:layout_height="76dp"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/attemptContainer_row6_char1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row6_char2"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row6_char3"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row6_char4"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/attemptContainer_row6_char5"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/wordle_empty_textbox"
+                    android:foregroundTint="#000000"
+                    android:outlineProvider="none"
+                    android:padding="12dp"
+                    android:shadowColor="#000000"
+                    android:text="A"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/debugMenu"
+            android:layout_width="90dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="160dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="161dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/attemptContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -446,39 +950,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Debug Info"
-                android:textSize="16sp"
+                android:textSize="8dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/debug_AttemptCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="AttemptCount: 0" />
+                android:text="AttemptCount: 0"
+                android:textSize="8dp" />
 
             <TextView
                 android:id="@+id/debug_AttemptBuffer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="AttemptBuffer: -empty-" />
+                android:text="AttemptBuffer: -empty-"
+                android:textSize="8dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/keyboard_Q"
-        android:layout_width="34dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="30dp"
-        android:backgroundTint="#BFBFBF"
-        android:padding="2dp"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:text="Q"
-        android:textAlignment="center"
-        app:cornerRadius="25px"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/main"
-        tools:layout_editor_absoluteY="446dp"
-        tools:text="Q" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
