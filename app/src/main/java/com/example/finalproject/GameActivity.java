@@ -1,24 +1,21 @@
 package com.example.finalproject;
 
-import android.graphics.Color;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.finalproject.game.WordleGame;
+import com.example.finalproject.wordle.WordleGame;
+import com.example.finalproject.wordle.ui.WordleTextField;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +26,8 @@ public class GameActivity extends AppCompatActivity
     private StringBuilder currentAttempt = new StringBuilder();
 
     private TextView attemptCountDebugLabel, attemptBufferDebugLabel;
+
+    private Map<Integer, WordleTextField> attemptTextFields;
     private boolean doDebugLogging = true;
 
     @Override
@@ -44,6 +43,7 @@ public class GameActivity extends AppCompatActivity
         });
 
         initWordleGame();
+        initTextFields();
         initKeyboard();
 
         if(doDebugLogging) initDebugMenu();
@@ -127,7 +127,18 @@ public class GameActivity extends AppCompatActivity
         attemptBufferDebugLabel = findViewById(R.id.debug_AttemptBuffer);
 
         attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
-                wordleGame.getAttemptCount()));
+                wordleGame.getAttemptsRemaining()));
+    }
+
+    private void initTextFields()
+    {
+        attemptTextFields = new HashMap<>();
+        attemptTextFields.put(1, WordleTextField.create(WordleTextField.Row.ROW_1, this));
+        attemptTextFields.put(2, WordleTextField.create(WordleTextField.Row.ROW_2, this));
+        attemptTextFields.put(3, WordleTextField.create(WordleTextField.Row.ROW_3, this));
+        attemptTextFields.put(4, WordleTextField.create(WordleTextField.Row.ROW_4, this));
+        attemptTextFields.put(5, WordleTextField.create(WordleTextField.Row.ROW_5, this));
+        attemptTextFields.put(6, WordleTextField.create(WordleTextField.Row.ROW_6, this));
     }
 
     private void submitAttempt()
@@ -138,18 +149,44 @@ public class GameActivity extends AppCompatActivity
         for(int i = 0; i < currentAttempt.length(); i++)
         {
             Button keyButton = getKeyboardButton(KeyboardKey.get(currentAttempt.charAt(i)));
+            //if(keyButton == null) continue;
+
             switch(charStatuses.get(i))
             {
                 case PRESENT_AND_CORRECT_POSITION:
                     keyButton.setBackgroundColor(getColor(R.color.wordle_green));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setBackgroundColor(getColor(R.color.wordle_green));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setTextColor(getColor(R.color.white));
                     break;
 
                 case PRESENT_BUT_INCORRECT_POSITION:
                     keyButton.setBackgroundColor(getColor(R.color.wordle_yellow));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setBackgroundColor(getColor(R.color.wordle_yellow));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setTextColor(getColor(R.color.white));
                     break;
 
                 case NOT_PRESENT:
                     keyButton.setBackgroundColor(getColor(R.color.wordle_gray));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setBackgroundColor(getColor(R.color.wordle_gray));
+
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                            .getColumn(i)
+                            .setTextColor(getColor(R.color.white));
                     break;
             }
         }
@@ -161,7 +198,7 @@ public class GameActivity extends AppCompatActivity
         if(doDebugLogging)
         {
             attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
-                    wordleGame.getAttemptCount()));
+                    wordleGame.getAttemptsRemaining()));
 
             attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
         }
@@ -201,21 +238,6 @@ public class GameActivity extends AppCompatActivity
         }
         return null;
     }
-//    private class KeyboardButton
-//    {
-//        private Button button;
-//        private KeyboardKey key;
-//
-//        private View.OnClickListener onClickListener;
-//
-//        private KeyboardButton(Button button, KeyboardKey key, View.OnClickListener onClickListener)
-//        {
-//            this.button = button;
-//            this.key = key;
-//            this.onClickListener = onClickListener;
-//        }
-//
-//    }
 
     private enum KeyboardKey
     {

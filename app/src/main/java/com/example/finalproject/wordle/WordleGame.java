@@ -1,26 +1,26 @@
-package com.example.finalproject.game;
+package com.example.finalproject.wordle;
 
 import java.util.ArrayList;
-import java.util.List;
 
 //Represents the active state of a wordle game
 public class WordleGame
 {
-    private static final int DEFAULT_WORD_LENGTH = 5;
-    private static final int DEFAULT_ATTEMPT_COUNT = 6;
+    public static final int DEFAULT_WORD_LENGTH = 5;
+    public static final int DEFAULT_ATTEMPT_COUNT = 6;
 
-    private int attemptCount;
+    private int maxAttemptCount;
+    private int attemptsCompleted;
     private final String wordToGuess;
 
     public WordleGame(String word)
     {
-        attemptCount = DEFAULT_ATTEMPT_COUNT;
+        maxAttemptCount = DEFAULT_ATTEMPT_COUNT;
         wordToGuess = word;
     }
 
     public ArrayList<CharacterStatus> submitGuess(String guess)
     {
-        if(attemptCount == 0 || guess.length() != wordToGuess.length()) return null;
+        if(maxAttemptCount == 0 || guess.length() != wordToGuess.length()) return null;
 
         ArrayList<CharacterStatus> characterStatuses = new ArrayList<>();
 
@@ -31,13 +31,18 @@ public class WordleGame
             i++;
         }
 
-        attemptCount--;
+        attemptsCompleted++;
         return characterStatuses;
     }
 
-    public int getAttemptCount()
+    public int getAttemptsRemaining()
     {
-        return this.attemptCount;
+        return maxAttemptCount - attemptsCompleted;
+    }
+
+    public int getAttemptsCompleted()
+    {
+        return attemptsCompleted;
     }
 
     public String getWordToGuess()

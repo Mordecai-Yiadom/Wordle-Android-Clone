@@ -1,4 +1,4 @@
-package com.example.finalproject.game;
+package com.example.finalproject.wordle;
 
 public class WordleGameManager
 {
