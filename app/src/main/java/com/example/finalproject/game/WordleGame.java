@@ -20,7 +20,7 @@ public class WordleGame
 
     public ArrayList<CharacterStatus> submitGuess(String guess)
     {
-        if(attemptCount == 0) return null;
+        if(attemptCount == 0 || guess.length() != wordToGuess.length()) return null;
 
         ArrayList<CharacterStatus> characterStatuses = new ArrayList<>();
 

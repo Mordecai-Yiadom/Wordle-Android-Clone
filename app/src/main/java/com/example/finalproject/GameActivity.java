@@ -1,12 +1,14 @@
 package com.example.finalproject;
 
 import android.graphics.Color;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.ColorRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -112,7 +114,6 @@ public class GameActivity extends AppCompatActivity
                 default:
                     button.setOnClickListener((View view) ->
                     {
-                        view.setBackgroundColor(Color.rgb(0, 50, 0));
                         addCharToAttempt(key.getChar());
                     });
                     break;
@@ -124,19 +125,47 @@ public class GameActivity extends AppCompatActivity
     {
         attemptCountDebugLabel = findViewById(R.id.debug_AttemptCount);
         attemptBufferDebugLabel = findViewById(R.id.debug_AttemptBuffer);
+
+        attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
+                wordleGame.getAttemptCount()));
     }
 
     private void submitAttempt()
     {
-        this.wordleGame.submitGuess(currentAttempt.toString());
+        ArrayList<WordleGame.CharacterStatus> charStatuses = wordleGame.submitGuess(currentAttempt.toString());
+        if(charStatuses == null) return;
 
+        for(int i = 0; i < currentAttempt.length(); i++)
+        {
+            Button keyButton = getKeyboardButton(KeyboardKey.get(currentAttempt.charAt(i)));
+            switch(charStatuses.get(i))
+            {
+                case PRESENT_AND_CORRECT_POSITION:
+                    keyButton.setBackgroundColor(getColor(R.color.wordle_green));
+                    break;
+
+                case PRESENT_BUT_INCORRECT_POSITION:
+                    keyButton.setBackgroundColor(getColor(R.color.wordle_yellow));
+                    break;
+
+                case NOT_PRESENT:
+                    keyButton.setBackgroundColor(getColor(R.color.wordle_gray));
+                    break;
+            }
+        }
+
+        //Reset currentAttempt buffer
+        currentAttempt.setLength(0);
+
+        //Debug Info
         if(doDebugLogging)
         {
             attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
                     wordleGame.getAttemptCount()));
+
+            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
         }
     }
-
 
     private void addCharToAttempt(char c)
     {
@@ -144,24 +173,49 @@ public class GameActivity extends AppCompatActivity
             return;
         currentAttempt.append(c);
 
+        //Debug Info
         if(doDebugLogging)
         {
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: %s", currentAttempt));
+            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
         }
     }
 
     private void removeCharFromAttempt()
     {
-        if(currentAttempt.isEmpty()) return;
-        currentAttempt.setLength(currentAttempt.length() - 1);
+        if(!currentAttempt.isEmpty())
+            currentAttempt.setLength(currentAttempt.length() - 1);
 
+        //Debug Info
         if(doDebugLogging)
         {
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: %s", currentAttempt));
+            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
         }
     }
 
-
+    private Button getKeyboardButton(KeyboardKey key)
+    {
+        for(Button button : keyboardKeyButtonMap.keySet())
+        {
+            if(keyboardKeyButtonMap.get(button) == key)
+                return button;
+        }
+        return null;
+    }
+//    private class KeyboardButton
+//    {
+//        private Button button;
+//        private KeyboardKey key;
+//
+//        private View.OnClickListener onClickListener;
+//
+//        private KeyboardButton(Button button, KeyboardKey key, View.OnClickListener onClickListener)
+//        {
+//            this.button = button;
+//            this.key = key;
+//            this.onClickListener = onClickListener;
+//        }
+//
+//    }
 
     private enum KeyboardKey
     {
@@ -181,6 +235,15 @@ public class GameActivity extends AppCompatActivity
         public char getChar()
         {
             return this.asciiChar;
+        }
+
+        private static KeyboardKey get(char c)
+        {
+            for(KeyboardKey key : KeyboardKey.values())
+            {
+                if(key.getChar() == c) return key;
+            }
+            return null;
         }
     }
 }
