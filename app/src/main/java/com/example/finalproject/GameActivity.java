@@ -107,6 +107,13 @@ public class GameActivity extends AppCompatActivity
                 case BACKSPACE:
                     button.setOnClickListener((View view) ->
                     {
+                        if(currentAttempt.length() < 1)
+                            return;
+
+                        attemptTextFields.get(wordleGame.getAttemptsCompleted() + 1)
+                                .getColumn(currentAttempt.length() - 1)
+                                .setText("");
+
                         removeCharFromAttempt();
                     });
                     break;
@@ -114,6 +121,13 @@ public class GameActivity extends AppCompatActivity
                 default:
                     button.setOnClickListener((View view) ->
                     {
+                        if(currentAttempt.length() >= WordleGame.DEFAULT_WORD_LENGTH)
+                            return;
+
+                        attemptTextFields.get(wordleGame.getAttemptsCompleted() + 1)
+                                .getColumn(currentAttempt.length())
+                                .setText(Character.toString(key.getChar()));
+
                         addCharToAttempt(key.getChar());
                     });
                     break;
