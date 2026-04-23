@@ -1,5 +1,6 @@
 package com.example.finalproject.wordle.ui;
 
+import android.graphics.Color;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,16 +12,21 @@ import java.util.ArrayList;
 public class WordleTextField
 {
     private ArrayList<TextView> textViews;
-    private WordleTextField()
+    private StringBuilder textBuffer;
+    private int maxLength;
+
+    private WordleTextField(int maxLength)
     {
         textViews = new ArrayList<>();
+        textBuffer = new StringBuilder();
+        this.maxLength = maxLength;
     }
 
-    public static WordleTextField create(Row row, AppCompatActivity activity)
+    public static WordleTextField create(Row row, int maxLength, AppCompatActivity activity)
     {
         if(activity == null || row == null) return null;
 
-        WordleTextField textField = new WordleTextField();
+        WordleTextField textField = new WordleTextField(maxLength);
         for(int id : row.columnIds)
         {
             textField.textViews.add(activity.findViewById(id));
@@ -28,10 +34,92 @@ public class WordleTextField
         return textField;
     }
 
-    public TextView getColumn(int index)
+    protected TextView getColumn(int index)
     {
         return textViews.get(index);
     }
+    public void setBackgroundColorAt(int index, int color)
+    {
+        TextView column = textViews.get(index);
+        if(column != null) column.setBackgroundColor(color);
+    }
+
+    public void setTextColorAt(int index, int color)
+    {
+        TextView column = textViews.get(index);
+        if(column != null) column.setTextColor(color);
+    }
+
+    public void setBackgroundColor(int color)
+    {
+        for(TextView textView : textViews)
+        {
+            textView.setBackgroundColor(color);
+        }
+    }
+
+    public void setTextColor(int color)
+    {
+        for(TextView textView : textViews)
+        {
+            textView.setTextColor(color);
+        }
+    }
+
+    public String getText()
+    {
+        return textBuffer.toString();
+    }
+
+    public void setText(String text)
+    {
+        if(textBuffer != null)
+            textBuffer = new StringBuilder(text);
+    }
+
+    public void setCharAt(int index, char c)
+    {
+        if(index > -1 && index < maxLength)
+            textBuffer.setCharAt(index, c);
+        updateTextViews();
+    }
+
+    public char getCharAt(int index)
+    {
+        return textBuffer.charAt(index);
+    }
+
+    public void append(char c)
+    {
+        if(textBuffer.length() < maxLength)
+            textBuffer.append(c);
+        textViews.get(textBuffer.length() - 1).setText(Character.toString(c));
+    }
+
+    public void removeCharAt(int index)
+    {
+        textBuffer.deleteCharAt(index);
+    }
+
+    public void removeLastChar()
+    {
+        if(textBuffer.isEmpty()) return;
+        textBuffer.setLength(textBuffer.length() - 1);
+        textViews.get(textBuffer.length()).setText("");
+    }
+
+    private void updateTextViews()
+    {
+        for(int i = 0; i < maxLength; i++)
+        {
+            if(i < textBuffer.length())
+                textViews.get(i).setText(textBuffer.charAt(i));
+            else
+                textViews.get(i).setText("");
+        }
+    }
+
+
 
     public enum Row
     {
