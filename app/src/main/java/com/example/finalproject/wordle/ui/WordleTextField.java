@@ -92,8 +92,10 @@ public class WordleTextField
     public void append(char c)
     {
         if(textBuffer.length() < maxLength)
+        {
             textBuffer.append(c);
-        textViews.get(textBuffer.length() - 1).setText(Character.toString(c));
+            textViews.get(textBuffer.length() - 1).setText(Character.toString(c));
+        }
     }
 
     public void removeCharAt(int index)
@@ -119,26 +121,31 @@ public class WordleTextField
         }
     }
 
+    @Override
+    public String toString()
+    {
+        return textBuffer.toString();
+    }
 
 
     public enum Row
     {
-        ROW_1(R.id.attemptContainer_row1_char1, R.id.attemptContainer_row1_char2,
+        ROW_0(R.id.attemptContainer_row1_char1, R.id.attemptContainer_row1_char2,
                 R.id.attemptContainer_row1_char3, R.id.attemptContainer_row1_char4,
                 R.id.attemptContainer_row1_char5),
-        ROW_2(R.id.attemptContainer_row2_char1, R.id.attemptContainer_row2_char2,
+        ROW_1(R.id.attemptContainer_row2_char1, R.id.attemptContainer_row2_char2,
                 R.id.attemptContainer_row2_char3, R.id.attemptContainer_row2_char4,
                 R.id.attemptContainer_row2_char5),
-        ROW_3(R.id.attemptContainer_row3_char1, R.id.attemptContainer_row3_char2,
+        ROW_2(R.id.attemptContainer_row3_char1, R.id.attemptContainer_row3_char2,
                 R.id.attemptContainer_row3_char3, R.id.attemptContainer_row3_char4,
                 R.id.attemptContainer_row3_char5),
-        ROW_4(R.id.attemptContainer_row4_char1, R.id.attemptContainer_row4_char2,
+        ROW_3(R.id.attemptContainer_row4_char1, R.id.attemptContainer_row4_char2,
                 R.id.attemptContainer_row4_char3, R.id.attemptContainer_row4_char4,
                 R.id.attemptContainer_row4_char5),
-        ROW_5(R.id.attemptContainer_row5_char1, R.id.attemptContainer_row5_char2,
+        ROW_4(R.id.attemptContainer_row5_char1, R.id.attemptContainer_row5_char2,
                 R.id.attemptContainer_row5_char3, R.id.attemptContainer_row5_char4,
                 R.id.attemptContainer_row5_char5),
-        ROW_6(R.id.attemptContainer_row6_char1, R.id.attemptContainer_row6_char2,
+        ROW_5(R.id.attemptContainer_row6_char1, R.id.attemptContainer_row6_char2,
                 R.id.attemptContainer_row6_char3, R.id.attemptContainer_row6_char4,
                 R.id.attemptContainer_row6_char5);
 

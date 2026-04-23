@@ -12,22 +12,26 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject.wordle.WordleGame;
+import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEvent;
+import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
 import com.example.finalproject.wordle.ui.WordleTextField;
+import com.example.finalproject.wordle.ui.keyboard.WordleKeyboard;
+import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GameActivity extends AppCompatActivity
+public class GameActivity extends AppCompatActivity implements WordleKeyboardListener
 {
     private WordleGame wordleGame;
-    private Map<Button, KeyboardKey> keyboardKeyButtonMap = new HashMap<>();
-    private StringBuilder currentAttempt = new StringBuilder();
+    private WordleKeyboard keyboard;
 
     private TextView attemptCountDebugLabel, attemptBufferDebugLabel;
 
-    private Map<Integer, WordleTextField> attemptTextFields;
+    private ArrayList<WordleTextField> attemptTextFields;
+
     private boolean doDebugLogging = true;
 
     @Override
@@ -55,80 +59,44 @@ public class GameActivity extends AppCompatActivity
     }
     private void initKeyboard()
     {
+        keyboard = WordleKeyboard.build(this);
+
         //Keyboard Row 1
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_Q), KeyboardKey.Q);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_W), KeyboardKey.W);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_E), KeyboardKey.E);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_R), KeyboardKey.R);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_T), KeyboardKey.T);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_Y), KeyboardKey.Y);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_U), KeyboardKey.U);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_I), KeyboardKey.I);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_O), KeyboardKey.O);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_P), KeyboardKey.P);
+        keyboard.addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.Q, R.id.keyboard_Q))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.W, R.id.keyboard_W))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.E, R.id.keyboard_E))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.R, R.id.keyboard_R))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.T, R.id.keyboard_T))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.Y, R.id.keyboard_Y))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.U, R.id.keyboard_U))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.I, R.id.keyboard_I))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.O, R.id.keyboard_O))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.P, R.id.keyboard_P))
 
-        //Keyboard Row 2
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_A), KeyboardKey.A);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_S), KeyboardKey.S);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_D), KeyboardKey.D);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_F), KeyboardKey.F);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_G), KeyboardKey.G);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_H), KeyboardKey.H);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_J), KeyboardKey.J);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_K), KeyboardKey.K);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_L), KeyboardKey.L);
+                //Keyboard Row 2
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.A, R.id.keyboard_A))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.S, R.id.keyboard_S))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.D, R.id.keyboard_D))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.F, R.id.keyboard_F))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.G, R.id.keyboard_G))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.H, R.id.keyboard_H))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.J, R.id.keyboard_J))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.K, R.id.keyboard_K))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.L, R.id.keyboard_L))
 
-        //Keyboard Row 3
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_ENTER), KeyboardKey.ENTER);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_Z), KeyboardKey.Z);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_X), KeyboardKey.X);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_C), KeyboardKey.C);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_V), KeyboardKey.V);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_B), KeyboardKey.B);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_N), KeyboardKey.N);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_M), KeyboardKey.M);
-        keyboardKeyButtonMap.put(findViewById(R.id.keyboard_BACKSPACE), KeyboardKey.BACKSPACE);
+                //Keyboard Row 3
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.ENTER, R.id.keyboard_ENTER))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.Z, R.id.keyboard_Z))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.X, R.id.keyboard_X))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.C, R.id.keyboard_C))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.V, R.id.keyboard_V))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.B, R.id.keyboard_B))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.N, R.id.keyboard_N))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.M, R.id.keyboard_M))
+                .addKey(new WordleKeyboardKey(keyboard, WordleKeyboardKey.WordleCharCode.BACKSPACE, R.id.keyboard_BACKSPACE));
 
-        Set<Button> keyboardButtons = keyboardKeyButtonMap.keySet();
-        for(Button button : keyboardButtons)
-        {
-            KeyboardKey key = keyboardKeyButtonMap.get(button);
-            if(key == null) continue;
 
-            switch(key)
-            {
-                case ENTER:
-                    button.setOnClickListener((View view) ->
-                    {
-                        submitAttempt();
-                    });
-                    break;
-
-                case BACKSPACE:
-                    button.setOnClickListener((View view) ->
-                    {
-                        if(currentAttempt.length() < 1)
-                            return;
-
-                        attemptTextFields.get(wordleGame.getAttemptsCompleted() + 1).removeLastChar();
-
-                        removeCharFromAttempt();
-                    });
-                    break;
-
-                default:
-                    button.setOnClickListener((View view) ->
-                    {
-                        if(currentAttempt.length() >= WordleGame.DEFAULT_WORD_LENGTH)
-                            return;
-
-                        addCharToAttempt(key.getChar());
-                        attemptTextFields.get(wordleGame.getAttemptsCompleted() + 1)
-                                .append(key.getChar());
-                    });
-                    break;
-            }
-        }
+        keyboard.registerListener(this);
     }
 
     private void initDebugMenu()
@@ -142,61 +110,67 @@ public class GameActivity extends AppCompatActivity
 
     private void initTextFields()
     {
-        attemptTextFields = new HashMap<>();
-        attemptTextFields.put(1, WordleTextField.create(WordleTextField.Row.ROW_1, 5,this));
-        attemptTextFields.put(2, WordleTextField.create(WordleTextField.Row.ROW_2, 5,this));
-        attemptTextFields.put(3, WordleTextField.create(WordleTextField.Row.ROW_3, 5,this));
-        attemptTextFields.put(4, WordleTextField.create(WordleTextField.Row.ROW_4, 5,this));
-        attemptTextFields.put(5, WordleTextField.create(WordleTextField.Row.ROW_5, 5,this));
-        attemptTextFields.put(6, WordleTextField.create(WordleTextField.Row.ROW_6, 5,this));
+        attemptTextFields = new ArrayList<>();
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_0, 5,this));
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_1, 5,this));
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_2, 5,this));
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_3, 5,this));
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_4, 5,this));
+        attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_5, 5,this));
     }
 
     private void submitAttempt()
     {
-        ArrayList<WordleGame.CharacterStatus> charStatuses = wordleGame.submitGuess(currentAttempt.toString());
+        WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
+        if(currentAttemptTextField == null) return;
+
+        String currentAttempt = currentAttemptTextField.toString();
+
+        ArrayList<WordleGame.CharacterStatus> charStatuses =
+                wordleGame.submitGuess(currentAttempt);
         if(charStatuses == null) return;
+
+
 
         for(int i = 0; i < currentAttempt.length(); i++)
         {
-            Button keyButton = getKeyboardButton(KeyboardKey.get(currentAttempt.charAt(i)));
-            //if(keyButton == null) continue;
+            WordleKeyboardKey key = keyboard.getKey(currentAttempt.charAt(i));
+            //if(key == null) continue;
 
             switch(charStatuses.get(i))
             {
                 case PRESENT_AND_CORRECT_POSITION:
-                    keyButton.setBackgroundColor(getColor(R.color.wordle_green));
+                    key.setBackgroundColor(getColor(R.color.wordle_green));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setBackgroundColorAt(i, getColor(R.color.wordle_green));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setTextColorAt(i, getColor(R.color.white));
                     break;
 
                 case PRESENT_BUT_INCORRECT_POSITION:
-                    keyButton.setBackgroundColor(getColor(R.color.wordle_yellow));
+                    key.setBackgroundColor(getColor(R.color.wordle_yellow));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setBackgroundColorAt(i, getColor(R.color.wordle_yellow));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setTextColorAt(i, getColor(R.color.white));
                     break;
 
                 case NOT_PRESENT:
-                    keyButton.setBackgroundColor(getColor(R.color.wordle_gray));
+                    key.setBackgroundColor(getColor(R.color.wordle_gray));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setBackgroundColorAt(i, getColor(R.color.wordle_gray));
 
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted())
+                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
                             .setTextColorAt(i, getColor(R.color.white));
                     break;
             }
         }
 
-        //Reset currentAttempt buffer
-        currentAttempt.setLength(0);
 
         //Debug Info
         if(doDebugLogging)
@@ -210,66 +184,66 @@ public class GameActivity extends AppCompatActivity
 
     private void addCharToAttempt(char c)
     {
-        if(currentAttempt.length() == wordleGame.getWordToGuess().length())
-            return;
-        currentAttempt.append(c);
+        WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
+        if(currentAttemptTextField == null) return;
+        currentAttemptTextField.append(c);
 
         //Debug Info
         if(doDebugLogging)
         {
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
+            attemptBufferDebugLabel.setText(
+                    String.format("AttemptBuffer: \"%s\"", currentAttemptTextField));
         }
     }
 
     private void removeCharFromAttempt()
     {
-        if(!currentAttempt.isEmpty())
-            currentAttempt.setLength(currentAttempt.length() - 1);
+        WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
+        if(currentAttemptTextField == null) return;
+        currentAttemptTextField.removeLastChar();
 
         //Debug Info
         if(doDebugLogging)
         {
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
+            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"",
+                    currentAttemptTextField));
         }
     }
 
-    private Button getKeyboardButton(KeyboardKey key)
+    private WordleTextField getCurrentAttemptTextField()
     {
-        for(Button button : keyboardKeyButtonMap.keySet())
-        {
-            if(keyboardKeyButtonMap.get(button) == key)
-                return button;
-        }
-        return null;
+        if(wordleGame == null) return null;
+        return attemptTextFields.get(wordleGame.getAttemptsCompleted());
     }
 
-    private enum KeyboardKey
+    private WordleTextField getPreviousAttemptTextField()
     {
-        Q('Q'), W('W'), E('E'), R('R'), T('T'), Y('Y'), U('U'), I('I'), O('O'), P('P'),
-        A('A'), S('S'), D('D'), F('F'), G('G'), H('H'), J('J'), K('K'), L('L'),
-        Z('Z'), X('X'), C('C'), V('V'), B('B'), N('N'), M('M'),
-        ENTER('\r'),
-        BACKSPACE('\b');
+        if(wordleGame == null) return null;
+        return attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1);
+    }
 
-        private char asciiChar;
-        private
-        KeyboardKey(char c)
-        {
-            this.asciiChar = c;
-        }
+    @Override
+    public void onKeyPressed(WordleKeyboardKeyPressedEvent event)
+    {
+        WordleKeyboardKey key = event.getKeyPressed();
+        WordleKeyboardKey.WordleCharCode charCode =
+                WordleKeyboardKey.WordleCharCode.getCharCode(key.getCharCode());
 
-        public char getChar()
-        {
-            return this.asciiChar;
-        }
+        if(charCode == null) return;
 
-        private static KeyboardKey get(char c)
+        switch(charCode)
         {
-            for(KeyboardKey key : KeyboardKey.values())
-            {
-                if(key.getChar() == c) return key;
-            }
-            return null;
+            case ENTER:
+                submitAttempt();
+                break;
+
+            case BACKSPACE:
+                removeCharFromAttempt();
+                break;
+
+            default:
+                addCharToAttempt(charCode.value());
+                break;
         }
     }
 }
