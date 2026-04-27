@@ -1,11 +1,19 @@
 package com.example.finalproject.wordle.ui;
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalproject.R;
+import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
 import java.util.ArrayList;
 
@@ -108,6 +116,37 @@ public class WordleTextField
         if(textBuffer.isEmpty()) return;
         textBuffer.setLength(textBuffer.length() - 1);
         textViews.get(textBuffer.length()).setText("");
+    }
+
+
+    public void startEmphasisAnimationAt(int index, float intensity, long duration)
+    {
+        TextView column = textViews.get(index);
+        if(column == null) return;
+
+        column.startAnimation(new WordleEmphasisAnimation(column,
+                intensity,
+                duration,
+                100,
+                100));
+    }
+
+    public void startElapsedAnimation(float intensity, long duration, long elapseRate)
+    {
+        long startOffset = 0;
+        for(TextView column : textViews)
+        {
+            WordleEmphasisAnimation animation = new WordleEmphasisAnimation(column,
+                    intensity,
+                    duration,
+                    100,
+                    100);
+
+            animation.setStartOffset(startOffset);
+            startOffset += elapseRate;
+
+            column.startAnimation(animation);
+        }
     }
 
     private void updateTextViews()

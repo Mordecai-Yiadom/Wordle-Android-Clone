@@ -2,6 +2,9 @@ package com.example.finalproject;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationSet;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -136,39 +139,36 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         {
             WordleKeyboardKey key = keyboard.getKey(currentAttempt.charAt(i));
             //if(key == null) continue;
+            int backgroundColor = getColor(R.color.white);
+            int textColor = getColor(R.color.white);
 
             switch(charStatuses.get(i))
             {
                 case PRESENT_AND_CORRECT_POSITION:
-                    key.setBackgroundColor(getColor(R.color.wordle_green));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setBackgroundColorAt(i, getColor(R.color.wordle_green));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setTextColorAt(i, getColor(R.color.white));
+                    backgroundColor = getColor(R.color.wordle_green);
                     break;
 
                 case PRESENT_BUT_INCORRECT_POSITION:
-                    key.setBackgroundColor(getColor(R.color.wordle_yellow));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setBackgroundColorAt(i, getColor(R.color.wordle_yellow));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setTextColorAt(i, getColor(R.color.white));
+                    backgroundColor = getColor(R.color.wordle_yellow);
                     break;
 
                 case NOT_PRESENT:
-                    key.setBackgroundColor(getColor(R.color.wordle_gray));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setBackgroundColorAt(i, getColor(R.color.wordle_gray));
-
-                    attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                            .setTextColorAt(i, getColor(R.color.white));
+                    backgroundColor = getColor(R.color.wordle_gray);
                     break;
             }
+
+            key.setBackgroundColor(backgroundColor);
+
+            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
+                    .setBackgroundColorAt(i, backgroundColor);
+            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
+                    .setTextColorAt(i, textColor);
+
+//            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
+//                    .startEmphasisAnimationAt(i, 0.2f, 700);
+
+            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
+                    .startElapsedAnimation(0.5f, 500, 75);
         }
 
 
@@ -187,6 +187,12 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
         if(currentAttemptTextField == null) return;
         currentAttemptTextField.append(c);
+
+
+        currentAttemptTextField.startEmphasisAnimationAt(
+                currentAttemptTextField.getText().length() - 1,
+                0.2f,
+                250);
 
         //Debug Info
         if(doDebugLogging)

@@ -1,6 +1,9 @@
 package com.example.finalproject.wordle.ui.keyboard;
 
 import android.view.View;
+import android.view.animation.AnimationSet;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +28,17 @@ public class WordleKeyboardKey
         this.button = activity.findViewById(buttonId);
         this.onClickListener = (View view)->
         {
+            ScaleAnimation scaleAnimation = new ScaleAnimation(view.getScaleX(), view.getScaleX() + 0.3f,
+                    view.getScaleY(), view.getScaleY() + 0.2f, 50, 50);
+            scaleAnimation.setDuration(100);
+
+            CycleInterpolator cycleInterpolator = new CycleInterpolator(0.5f);
+            AnimationSet animationSet = new AnimationSet(true);
+            animationSet.setInterpolator(cycleInterpolator);
+            animationSet.addAnimation(scaleAnimation);
+
+            view.startAnimation(animationSet);
+
             this.keyboard.dispatchOnKeyPressedEvent(
                     new WordleKeyboardKeyPressedEvent(this.keyboard, this));
         };
