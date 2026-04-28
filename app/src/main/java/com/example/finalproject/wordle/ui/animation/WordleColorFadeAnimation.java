@@ -58,6 +58,11 @@ public class WordleColorFadeAnimation
         valueAnimator.start();
     }
 
+    public void repeatForever()
+    {
+        valueAnimator.setRepeatMode(ValueAnimator.RESTART);
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+    }
 
 
 

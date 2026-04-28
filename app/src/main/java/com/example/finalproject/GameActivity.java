@@ -1,8 +1,13 @@
 package com.example.finalproject;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.CycleInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -18,6 +23,7 @@ import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEv
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
 import com.example.finalproject.wordle.game.WordleGameManager;
 import com.example.finalproject.wordle.ui.WordleTextField;
+import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboard;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
@@ -48,12 +54,11 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         initToolbar();
         initTextFields();
         initKeyboard();
-
     }
 
     private void initWordleGame()
     {
-        this.wordleGame = WordleGameManager.createRandomGame();
+        this.wordleGame = WordleGameManager.createGame("large");
     }
     private void initKeyboard()
     {
@@ -181,6 +186,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             textField.startElapsedAnimation(0.5f, 500, 75, backgroundColor);
         }
 
+        //Checks if game has been won or lost
+        if(checkAttemptIsCorrect(charStatuses))
+            displayWin();
+
+        else if(!wordleGame.hasAttemptsRemaining())
+            displayLose();
+
     }
 
     private void addCharToAttempt(char c)
@@ -219,6 +231,108 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         if(wordleGame == null) return null;
         return attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1);
     }
+
+    private void displayWin()
+    {
+        hideKeyboard();
+        hideToolbar();
+        startWinAnimation();
+
+        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void displayLose()
+    {
+        hideKeyboard();
+        hideToolbar();
+        startLoseAnimation();
+
+        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+
+
+    private void startWinAnimation()
+    {
+        View mainView = findViewById(R.id.main);
+        WordleColorFadeAnimation colorFadeAnimation
+                = new WordleColorFadeAnimation(WordleColorFadeAnimation.Type.BACKGROUND_COLOR,
+                mainView,
+                1000,
+                Color.GREEN);
+
+        colorFadeAnimation.start();
+
+        View attemptContainer = findViewById(R.id.attemptContainer);
+
+        ValueAnimator translateAnimator
+                = ValueAnimator.ofFloat(attemptContainer.getTranslationY(),
+                attemptContainer.getTranslationY() - 2000);
+        translateAnimator.setInterpolator(new AccelerateInterpolator(1f));
+
+        translateAnimator.setDuration(1000);
+        translateAnimator.setStartDelay(500);
+
+        translateAnimator.addUpdateListener((animator)->
+        {
+            attemptContainer.setTranslationY((float)animator.getAnimatedValue());
+        });
+
+        translateAnimator.start();
+    }
+
+    private void startLoseAnimation()
+    {
+        View view = findViewById(R.id.main);
+        WordleColorFadeAnimation colorFadeAnimation
+                = new WordleColorFadeAnimation(WordleColorFadeAnimation.Type.BACKGROUND_COLOR,
+                view,
+                1000,
+                Color.RED);
+
+        colorFadeAnimation.start();
+    }
+
+    private void hideKeyboard()
+    {
+        View keyboardView = findViewById(R.id.keyboard);
+        ValueAnimator translateAnimator
+                = ValueAnimator.ofFloat(keyboardView.getTranslationY(),
+                keyboardView.getTranslationY() + 2000);
+        translateAnimator.setInterpolator(new AccelerateInterpolator(1f));
+
+        translateAnimator.setDuration(1000);
+        translateAnimator.setStartDelay(500);
+
+        translateAnimator.addUpdateListener((animator)->
+        {
+            keyboardView.setTranslationY((float)animator.getAnimatedValue());
+        });
+
+        translateAnimator.start();
+    }
+
+    private void hideToolbar()
+    {
+        View toolbarView = findViewById(R.id.toolbar);
+        ValueAnimator translateAnimator
+                = ValueAnimator.ofFloat(toolbarView.getTranslationY(),
+                toolbarView.getTranslationY() - 2000);
+        translateAnimator.setInterpolator(new AccelerateInterpolator(1f));
+
+        translateAnimator.setDuration(1000);
+        translateAnimator.setStartDelay(500);
+
+        translateAnimator.addUpdateListener((animator)->
+        {
+            toolbarView.setTranslationY((float)animator.getAnimatedValue());
+        });
+
+        translateAnimator.start();
+    }
+
+
 
     @Override
     public void onKeyPressed(WordleKeyboardKeyPressedEvent event)

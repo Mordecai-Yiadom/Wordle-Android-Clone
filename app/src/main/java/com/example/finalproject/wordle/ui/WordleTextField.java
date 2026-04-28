@@ -152,7 +152,6 @@ public class WordleTextField
             startOffset += elapseRate;
 
             column.startAnimation(emphasisAnimation);
-
         }
     }
 
@@ -172,6 +171,8 @@ public class WordleTextField
     }
 
 
+
+
     private void updateTextViews()
     {
         for(int i = 0; i < maxLength; i++)
@@ -182,6 +183,17 @@ public class WordleTextField
                 textViews.get(i).setText("");
         }
     }
+
+    public void setVisible(boolean isVisible)
+    {
+        for(TextView column : textViews)
+        {
+            if(isVisible) column.setVisibility(TextView.VISIBLE);
+            else column.setVisibility(TextView.INVISIBLE);
+        }
+    }
+
+
 
     @Override
     public String toString()

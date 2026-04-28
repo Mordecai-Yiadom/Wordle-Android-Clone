@@ -53,6 +53,11 @@ public class WordleGame
         return attemptsCompleted;
     }
 
+    public boolean hasAttemptsRemaining()
+    {
+        return (getAttemptsRemaining() > 0);
+    }
+
     public String getWordToGuess()
     {
         return wordToGuess;

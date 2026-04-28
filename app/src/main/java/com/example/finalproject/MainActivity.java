@@ -3,8 +3,12 @@ package com.example.finalproject;
 import android.animation.AnimatorInflater;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.LinearGradient;
 import android.icu.number.Scale;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Visibility;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -24,6 +28,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject.wordle.game.WordleGameManager;
+import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
 import java.io.InputStream;
@@ -33,7 +38,6 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity
 {
     private Button playButton;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,12 +51,20 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
 
+        Fade fadeTransition = new Fade(Visibility.MODE_OUT);
+        fadeTransition.setDuration(1000);
+        getWindow().setExitTransition(fadeTransition);
+
+
+
         //Load wordle words TXT file
         WordleGameManager.setDefaultWords(loadTextFile(R.raw.wordle_default_words));
 
-
         //Init Homepage activity UI members
         initPlayButton();
+
+        //Starts the color fading animation
+        startColorFadingAnimation();
     }
 
     private void initPlayButton()
@@ -98,6 +110,32 @@ public class MainActivity extends AppCompatActivity
         }
 
         return fileLines;
+    }
+
+    private void startColorFadingAnimation()
+    {
+        WordleColorFadeAnimation colorFadeAnimation
+                = new WordleColorFadeAnimation(WordleColorFadeAnimation.Type.BACKGROUND_COLOR,
+                findViewById(R.id.main),
+                20000,
+
+                getColor(R.color.white),
+                getColor(R.color.wordle_yellow),
+                getColor(R.color.wordle_yellow),
+
+                getColor(R.color.white),
+                getColor(R.color.wordle_gray),
+                getColor(R.color.wordle_gray),
+
+                getColor(R.color.white),
+                getColor(R.color.wordle_green),
+                getColor(R.color.wordle_green),
+
+                getColor(R.color.white));
+
+        colorFadeAnimation.repeatForever();
+        colorFadeAnimation.setStartOffset(1000);
+        colorFadeAnimation.start();
     }
 
 
