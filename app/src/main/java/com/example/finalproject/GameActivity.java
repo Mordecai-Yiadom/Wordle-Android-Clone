@@ -121,7 +121,15 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_4, 5,this));
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_5, 5,this));
     }
-
+    private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
+    {
+        for(WordleGame.CharacterStatus status : characterStatuses)
+        {
+            if(status != WordleGame.CharacterStatus.PRESENT_AND_CORRECT_POSITION)
+                return false;
+        }
+        return true;
+    }
     private void submitAttempt()
     {
         WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
@@ -208,6 +216,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         WordleTextField currentAttemptTextField = getCurrentAttemptTextField();
         if(currentAttemptTextField == null) return;
         currentAttemptTextField.removeLastChar();
+
+        currentAttemptTextField.startEmphasisAnimationAt(
+                currentAttemptTextField.getText().length(),
+                -0.2f,
+                250);
+
+
 
         //Debug Info
         if(doDebugLogging)
