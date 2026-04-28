@@ -23,9 +23,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.finalproject.wordle.game.WordleGameManager;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class MainActivity extends AppCompatActivity
 {
     private Button playButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +46,10 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
 
+        //Load wordle words TXT file
+        WordleGameManager.setDefaultWords(loadTextFile(R.raw.wordle_default_words));
+
+
         //Init Homepage activity UI members
         initPlayButton();
     }
@@ -47,30 +58,14 @@ public class MainActivity extends AppCompatActivity
     {
         playButton = findViewById(R.id.playButton);
 
-//        TranslateAnimation translateAnimation1 = new TranslateAnimation(0,100, 0, 100);
-//        translateAnimation1.setDuration(2000);
-//        animation.setDuration(1000);
-
-
         ScaleAnimation scaleAnimation = new ScaleAnimation(playButton.getScaleX(), playButton.getScaleX() + 2,
                 playButton.getScaleY(), playButton.getScaleY() + 2, 120.0f, 50.0f);
         scaleAnimation.setDuration(1000);
 
 
-        RotateAnimation rotateAnimation = new RotateAnimation(0, 360, 120, 50);
-        rotateAnimation.setDuration(1000);
-
-        CycleInterpolator cycleInterpolator = new CycleInterpolator(0.5f);
-        AnimationSet animationSet = new AnimationSet(true);
-        animationSet.setInterpolator(cycleInterpolator);
-
-        animationSet.addAnimation(scaleAnimation);
-        //animationSet.addAnimation(rotateAnimation);
-
-
         playButton.setOnClickListener((view)->
         {
-            view.startAnimation(animationSet);
+            view.startAnimation(scaleAnimation);
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
             startActivity(intent);
         });
@@ -78,7 +73,33 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private InputStream loadRawFileResource(int resourceId)
+    {
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = getBaseContext().getResources().openRawResource(resourceId);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
+        return inputStream;
+    }
+
+    private ArrayList<String> loadTextFile(int textFileId)
+    {
+        Scanner scanner = new Scanner(loadRawFileResource(textFileId));
+
+        ArrayList<String> fileLines = new ArrayList<>();
+        while(scanner.hasNextLine())
+        {
+            fileLines.add(scanner.nextLine());
+        }
+
+        return fileLines;
+    }
 
 
 }

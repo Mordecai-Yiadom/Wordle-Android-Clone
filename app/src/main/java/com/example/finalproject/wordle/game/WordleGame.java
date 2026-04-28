@@ -1,4 +1,4 @@
-package com.example.finalproject.wordle;
+package com.example.finalproject.wordle.game;
 
 import java.util.ArrayList;
 
@@ -12,10 +12,18 @@ public class WordleGame
     private int attemptsCompleted;
     private final String wordToGuess;
 
-    public WordleGame(String word)
+    protected WordleGame(String word)
     {
         maxAttemptCount = DEFAULT_ATTEMPT_COUNT;
-        wordToGuess = word;
+        StringBuilder finalWord = new StringBuilder();
+
+        for(char c : word.toUpperCase().toCharArray())
+        {
+            if(Character.isAlphabetic(c))
+                finalWord.append(c);
+        }
+
+        wordToGuess = finalWord.toString();
     }
 
     public ArrayList<CharacterStatus> submitGuess(String guess)

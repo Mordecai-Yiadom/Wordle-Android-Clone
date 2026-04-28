@@ -1,11 +1,6 @@
 package com.example.finalproject;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.animation.AnimationSet;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.ScaleAnimation;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,17 +9,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.finalproject.wordle.WordleGame;
+import com.example.finalproject.wordle.game.WordleGame;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEvent;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
+import com.example.finalproject.wordle.game.WordleGameManager;
 import com.example.finalproject.wordle.ui.WordleTextField;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboard;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
 public class GameActivity extends AppCompatActivity implements WordleKeyboardListener
 {
@@ -58,7 +51,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
 
     private void initWordleGame()
     {
-        this.wordleGame = new WordleGame("LARGE");
+        this.wordleGame = WordleGameManager.createRandomGame();
     }
     private void initKeyboard()
     {
@@ -120,6 +113,8 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_3, 5,this));
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_4, 5,this));
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_5, 5,this));
+
+
     }
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
     {
@@ -176,8 +171,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
 
             textField.startElapsedAnimation(0.5f, 500, 75, backgroundColor);
 
-
-            textField.setBackgroundColorAt(i, backgroundColor);
+            //textField.setBackgroundColorAt(i, backgroundColor);
         }
 
 
