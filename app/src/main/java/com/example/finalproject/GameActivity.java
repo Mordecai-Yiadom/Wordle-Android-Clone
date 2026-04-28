@@ -134,12 +134,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         if(charStatuses == null) return;
 
 
+        long colorFadeStartOffset = 0;
 
         for(int i = 0; i < currentAttempt.length(); i++)
         {
             WordleKeyboardKey key = keyboard.getKey(currentAttempt.charAt(i));
             //if(key == null) continue;
-            long colorFadeStartOffset = 0;
+
             int backgroundColor = getColor(R.color.white);
             int textColor = getColor(R.color.white);
 
