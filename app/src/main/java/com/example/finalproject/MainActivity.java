@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject.wordle.game.WordleGameManager;
+import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -58,14 +59,12 @@ public class MainActivity extends AppCompatActivity
     {
         playButton = findViewById(R.id.playButton);
 
-        ScaleAnimation scaleAnimation = new ScaleAnimation(playButton.getScaleX(), playButton.getScaleX() + 2,
-                playButton.getScaleY(), playButton.getScaleY() + 2, 120.0f, 50.0f);
-        scaleAnimation.setDuration(1000);
-
-
         playButton.setOnClickListener((view)->
         {
-            view.startAnimation(scaleAnimation);
+            WordleEmphasisAnimation emphasisAnimation = new WordleEmphasisAnimation(playButton,
+                    2, 1000, 120.0f, 50.0f);
+
+            view.startAnimation(emphasisAnimation);
             Intent intent = new Intent(MainActivity.this, GameActivity.class);
             startActivity(intent);
         });

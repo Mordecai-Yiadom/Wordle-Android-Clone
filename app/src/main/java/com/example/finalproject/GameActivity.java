@@ -1,6 +1,10 @@
 package com.example.finalproject;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -14,6 +18,7 @@ import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEv
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
 import com.example.finalproject.wordle.game.WordleGameManager;
 import com.example.finalproject.wordle.ui.WordleTextField;
+import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboard;
 import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
@@ -24,11 +29,8 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
     private WordleGame wordleGame;
     private WordleKeyboard keyboard;
 
-    private TextView attemptCountDebugLabel, attemptBufferDebugLabel;
-
     private ArrayList<WordleTextField> attemptTextFields;
 
-    private boolean doDebugLogging = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,10 +45,10 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         });
 
         initWordleGame();
+        initToolbar();
         initTextFields();
         initKeyboard();
 
-        if(doDebugLogging) initDebugMenu();
     }
 
     private void initWordleGame()
@@ -95,14 +97,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         keyboard.registerListener(this);
     }
 
-    private void initDebugMenu()
-    {
-        attemptCountDebugLabel = findViewById(R.id.debug_AttemptCount);
-        attemptBufferDebugLabel = findViewById(R.id.debug_AttemptBuffer);
-
-        attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
-                wordleGame.getAttemptsRemaining()));
-    }
 
     private void initTextFields()
     {
@@ -113,9 +107,24 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_3, 5,this));
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_4, 5,this));
         attemptTextFields.add(WordleTextField.create(WordleTextField.Row.ROW_5, 5,this));
-
-
     }
+
+    private void initToolbar()
+    {
+        ImageButton homeButton = findViewById(R.id.homeButton);
+        if(homeButton == null) return;
+
+        homeButton.setOnClickListener((View view)->
+        {
+            WordleEmphasisAnimation emphasisAnimation = new WordleEmphasisAnimation(homeButton,
+                    0.5f, 1000, 120.0f, 50.0f);
+
+            view.startAnimation(emphasisAnimation);
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+    }
+
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
     {
         for(WordleGame.CharacterStatus status : characterStatuses)
@@ -170,19 +179,8 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             colorFadeStartOffset += 75;
 
             textField.startElapsedAnimation(0.5f, 500, 75, backgroundColor);
-
-            //textField.setBackgroundColorAt(i, backgroundColor);
         }
 
-
-        //Debug Info
-        if(doDebugLogging)
-        {
-            attemptCountDebugLabel.setText(String.format("AttemptCount: %d",
-                    wordleGame.getAttemptsRemaining()));
-
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"", currentAttempt));
-        }
     }
 
     private void addCharToAttempt(char c)
@@ -196,13 +194,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                 currentAttemptTextField.getText().length() - 1,
                 0.2f,
                 250);
-
-        //Debug Info
-        if(doDebugLogging)
-        {
-            attemptBufferDebugLabel.setText(
-                    String.format("AttemptBuffer: \"%s\"", currentAttemptTextField));
-        }
     }
 
     private void removeCharFromAttempt()
@@ -215,15 +206,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                 currentAttemptTextField.getText().length(),
                 -0.2f,
                 250);
-
-
-
-        //Debug Info
-        if(doDebugLogging)
-        {
-            attemptBufferDebugLabel.setText(String.format("AttemptBuffer: \"%s\"",
-                    currentAttemptTextField));
-        }
     }
 
     private WordleTextField getCurrentAttemptTextField()

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class WordleGameManager
 {
     private static ArrayList<String> WORDLE_DEFAULT_WORDS;
-    private static boolean wordleDefaultWordsLoaded = false;
 
     private WordleGameManager()
     {}
