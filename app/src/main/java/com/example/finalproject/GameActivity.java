@@ -139,6 +139,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         {
             WordleKeyboardKey key = keyboard.getKey(currentAttempt.charAt(i));
             //if(key == null) continue;
+            long colorFadeStartOffset = 0;
             int backgroundColor = getColor(R.color.white);
             int textColor = getColor(R.color.white);
 
@@ -158,17 +159,16 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             }
 
             key.setBackgroundColor(backgroundColor);
+            WordleTextField textField = attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1);
 
-            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                    .setBackgroundColorAt(i, backgroundColor);
-            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                    .setTextColorAt(i, textColor);
+            textField.setTextColorAt(i, textColor);
+            textField.startElapsedColorFadeAnimationAt(i, backgroundColor, 750, colorFadeStartOffset);
+            colorFadeStartOffset += 75;
 
-//            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-//                    .startEmphasisAnimationAt(i, 0.2f, 700);
+            textField.startElapsedAnimation(0.5f, 500, 75, backgroundColor);
 
-            attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1)
-                    .startElapsedAnimation(0.5f, 500, 75);
+
+            textField.setBackgroundColorAt(i, backgroundColor);
         }
 
 

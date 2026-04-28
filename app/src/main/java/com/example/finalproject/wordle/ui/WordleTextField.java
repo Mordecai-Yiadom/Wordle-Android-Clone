@@ -1,5 +1,6 @@
 package com.example.finalproject.wordle.ui;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.view.animation.AlphaAnimation;
@@ -10,16 +11,21 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalproject.R;
+import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
 import java.util.ArrayList;
+import java.util.Map;
+
 
 public class WordleTextField
 {
     private ArrayList<TextView> textViews;
+    private Map<TextView, Integer> textViewColors;
     private StringBuilder textBuffer;
     private int maxLength;
 
@@ -131,23 +137,40 @@ public class WordleTextField
                 100));
     }
 
-    public void startElapsedAnimation(float intensity, long duration, long elapseRate)
+    public void startElapsedAnimation(float intensity, long duration, long elapseRate, int finalColor)
     {
         long startOffset = 0;
         for(TextView column : textViews)
         {
-            WordleEmphasisAnimation animation = new WordleEmphasisAnimation(column,
+            WordleEmphasisAnimation emphasisAnimation = new WordleEmphasisAnimation(column,
                     intensity,
                     duration,
                     100,
                     100);
 
-            animation.setStartOffset(startOffset);
+            emphasisAnimation.setStartOffset(startOffset);
             startOffset += elapseRate;
 
-            column.startAnimation(animation);
+            column.startAnimation(emphasisAnimation);
+
         }
     }
+
+    public void startElapsedColorFadeAnimationAt(int index, int finalColor, long duration, long startOffset)
+    {
+        TextView column = textViews.get(index);
+        if(column == null) return;
+
+        WordleColorFadeAnimation colorFadeAnimation
+                = new WordleColorFadeAnimation(WordleColorFadeAnimation.Type.BACKGROUND_COLOR,
+                column,
+                duration,
+                column.getContext().getColor(R.color.white),
+                finalColor);
+        colorFadeAnimation.setStartOffset(startOffset);
+        colorFadeAnimation.start();
+    }
+
 
     private void updateTextViews()
     {

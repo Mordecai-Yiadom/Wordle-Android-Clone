@@ -21,6 +21,20 @@ public class WordleEmphasisAnimation extends ScaleAnimation
 
     }
 
+    public WordleEmphasisAnimation(View view, float intensity, long duration, long startOffset, float pivotX, float pivotY)
+    {
+        super(view.getScaleX(),
+                view.getScaleX() + intensity,
+                view.getScaleY(),
+                view.getScaleY() + intensity,
+                pivotX,
+                pivotY);
+
+        setDuration(duration);
+        setInterpolator(new CycleInterpolator(0.5f));
+        setStartOffset(startOffset);
+    }
+
 
 
 }

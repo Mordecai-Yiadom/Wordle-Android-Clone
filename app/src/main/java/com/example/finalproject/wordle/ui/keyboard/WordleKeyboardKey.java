@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEvent;
+import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
 public class WordleKeyboardKey
 {
@@ -28,16 +29,14 @@ public class WordleKeyboardKey
         this.button = activity.findViewById(buttonId);
         this.onClickListener = (View view)->
         {
-            ScaleAnimation scaleAnimation = new ScaleAnimation(view.getScaleX(), view.getScaleX() + 0.3f,
-                    view.getScaleY(), view.getScaleY() + 0.2f, 50, 50);
-            scaleAnimation.setDuration(100);
+            WordleEmphasisAnimation emphasisAnimation
+                    = new WordleEmphasisAnimation(view,
+                    0.3f,
+                    100,
+                    50,
+                    50);
 
-            CycleInterpolator cycleInterpolator = new CycleInterpolator(0.5f);
-            AnimationSet animationSet = new AnimationSet(true);
-            animationSet.setInterpolator(cycleInterpolator);
-            animationSet.addAnimation(scaleAnimation);
-
-            view.startAnimation(animationSet);
+            view.startAnimation(emphasisAnimation);
 
             this.keyboard.dispatchOnKeyPressedEvent(
                     new WordleKeyboardKeyPressedEvent(this.keyboard, this));
