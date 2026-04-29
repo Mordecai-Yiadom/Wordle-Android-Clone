@@ -5,8 +5,12 @@ import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.transition.Visibility;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.CycleInterpolator;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -56,11 +60,12 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         initToolbar();
         initTextFields();
         initKeyboard();
+        initWinMessage();
     }
 
     private void initWordleGame()
     {
-        this.wordleGame = WordleGameManager.createGame("large");
+        this.wordleGame = WordleGameManager.createRandomGame();
     }
     private void initKeyboard()
     {
@@ -132,6 +137,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         });
     }
 
+    private void initWinMessage()
+    {
+        TextView winMessageView = findViewById(R.id.winMessage);
+        if(winMessageView == null) return;
+
+        winMessageView.setVisibility(View.INVISIBLE);
+    }
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
     {
         for(WordleGame.CharacterStatus status : characterStatuses)
@@ -178,6 +190,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                     break;
             }
 
+            //Set Background colors and animate the text fields
             key.setBackgroundColor(backgroundColor);
             WordleTextField textField = attemptTextFields.get(wordleGame.getAttemptsCompleted() - 1);
 
@@ -239,6 +252,41 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         hideKeyboard();
         hideToolbar();
         startWinAnimation();
+        displayWinMessage("YOU WIN!",
+                Color.RED,
+                Color.YELLOW,
+                Color.GREEN,
+                Color.CYAN,
+                Color.BLUE,
+                Color.MAGENTA);
+
+        ValueAnimator timer = ValueAnimator.ofArgb(Color.RED, Color.GREEN);
+        timer.setDuration(4000);
+        timer.addListener(new Animator.AnimatorListener()
+        {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                transitionHome();
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
+
+            }
+        });
+
+        timer.start();
+
     }
 
     private void displayLose()
@@ -246,6 +294,39 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         hideKeyboard();
         hideToolbar();
         startLoseAnimation();
+        String message = String.format("the word was \"%s\"", wordleGame.getWordToGuess());
+
+        displayWinMessage(message,
+                getColor(R.color.wordle_red),
+                getColor(R.color.wordle_dark_red),
+                getColor(R.color.wordle_red));
+
+        ValueAnimator timer = ValueAnimator.ofArgb(Color.RED, Color.GREEN);
+        timer.setDuration(5000);
+        timer.addListener(new Animator.AnimatorListener()
+        {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                transitionHome();
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
+
+            }
+        });
+
+        timer.start();
     }
 
 
@@ -275,29 +356,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             attemptContainer.setTranslationY((float)animator.getAnimatedValue());
         });
 
-
-        translateAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationCancel(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(@NonNull Animator animation) {
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onAnimationRepeat(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationStart(@NonNull Animator animation) {
-
-            }
-        });
         translateAnimator.start();
     }
 
@@ -325,31 +383,62 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             attemptContainer.setTranslationY((float)animator.getAnimatedValue());
         });
 
-        translateAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationCancel(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(@NonNull Animator animation) {
-                Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onAnimationRepeat(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationStart(@NonNull Animator animation) {
-
-            }
-        });
-
         translateAnimator.start();
         colorFadeAnimation.start();
+
+    }
+
+    private void displayWinMessage(String message, int... colors)
+    {
+        TextView winMessageView = findViewById(R.id.winMessage);
+        if(winMessageView == null) return;
+
+        winMessageView.setVisibility(View.VISIBLE);
+
+        winMessageView.setText(message);
+
+        WordleColorFadeAnimation colorFadeAnimation
+                = new WordleColorFadeAnimation(WordleColorFadeAnimation.Type.TEXT_COLOR,
+                winMessageView,
+                3000,
+                colors);
+
+        //Translation animation
+        ValueAnimator translateAnimator
+                = ValueAnimator.ofFloat(winMessageView.getTranslationY(),
+                winMessageView.getTranslationY() - 1000);
+        translateAnimator.setInterpolator(new AccelerateInterpolator(1f));
+        translateAnimator.setDuration(700);
+        translateAnimator.setStartDelay(200);
+        translateAnimator.addUpdateListener((animation)->
+        {
+            winMessageView.setTranslationY((float)animation.getAnimatedValue());
+        });
+
+        //Alpha animation
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(1000);
+
+        //Emphasis Animation
+        WordleEmphasisAnimation emphasisAnimation
+                = new WordleEmphasisAnimation(winMessageView,
+                0.5f,
+                1000,
+                320,
+                50);
+        emphasisAnimation.setStartOffset(700);
+
+
+        //Animation set (both emphasis and alpha animations)
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(emphasisAnimation);
+
+        winMessageView.startAnimation(animationSet);
+
+        colorFadeAnimation.repeatForever();
+        colorFadeAnimation.start();
+        translateAnimator.start();
     }
 
     private void hideKeyboard()
@@ -390,6 +479,11 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         translateAnimator.start();
     }
 
+    private void transitionHome()
+    {
+        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 
     @Override
