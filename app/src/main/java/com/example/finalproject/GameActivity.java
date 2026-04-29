@@ -135,6 +135,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             Intent intent = new Intent(GameActivity.this, MainActivity.class);
             startActivity(intent);
         });
+
+        Button gamemodeButton = findViewById(R.id.gamemodeButton);
+        if(gamemodeButton == null) return;
+
+
+
+
     }
 
     private void initWinMessage()

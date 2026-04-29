@@ -13,8 +13,8 @@
         android:layout_height="match_parent"
         android:outlineProvider="none"
         tools:context=".GameActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-56dp">
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -912,7 +912,7 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/attemptContainer"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.029"
+            app:layout_constraintHorizontal_bias="0.389"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -970,10 +970,23 @@
 
             <ImageView
                 android:id="@+id/wordleLogo"
-                android:layout_width="354dp"
-                android:layout_height="wrap_content"
+                android:layout_width="244dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/wordle_emblem" />
+
+            <Button
+                android:id="@+id/gamemodeButton"
+                android:layout_width="59dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="EASY"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:cornerRadius="5dp"
+                app:iconPadding="0dp" />
+
         </LinearLayout>
 
         <TextView
