@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -237,9 +239,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         hideKeyboard();
         hideToolbar();
         startWinAnimation();
-
-        Intent intent = new Intent(GameActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
     private void displayLose()
@@ -247,9 +246,6 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         hideKeyboard();
         hideToolbar();
         startLoseAnimation();
-
-        Intent intent = new Intent(GameActivity.this, MainActivity.class);
-        startActivity(intent);
     }
 
 
@@ -279,6 +275,29 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             attemptContainer.setTranslationY((float)animator.getAnimatedValue());
         });
 
+
+        translateAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
+
+            }
+        });
         translateAnimator.start();
     }
 
@@ -291,6 +310,45 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                 1000,
                 Color.RED);
 
+        View attemptContainer = findViewById(R.id.attemptContainer);
+
+        ValueAnimator translateAnimator
+                = ValueAnimator.ofFloat(attemptContainer.getTranslationY(),
+                attemptContainer.getTranslationY() - 2000);
+        translateAnimator.setInterpolator(new AccelerateInterpolator(1f));
+
+        translateAnimator.setDuration(1000);
+        translateAnimator.setStartDelay(500);
+
+        translateAnimator.addUpdateListener((animator)->
+        {
+            attemptContainer.setTranslationY((float)animator.getAnimatedValue());
+        });
+
+        translateAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationCancel(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(@NonNull Animator animation) {
+                Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAnimationRepeat(@NonNull Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(@NonNull Animator animation) {
+
+            }
+        });
+
+        translateAnimator.start();
         colorFadeAnimation.start();
     }
 
