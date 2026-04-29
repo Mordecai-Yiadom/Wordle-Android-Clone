@@ -302,7 +302,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                 getColor(R.color.wordle_red));
 
         ValueAnimator timer = ValueAnimator.ofArgb(Color.RED, Color.GREEN);
-        timer.setDuration(5000);
+        timer.setDuration(5500);
         timer.addListener(new Animator.AnimatorListener()
         {
             @Override
