@@ -2,8 +2,11 @@ package com.example.finalproject;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.transition.Visibility;
 import android.view.View;
@@ -28,6 +31,9 @@ import com.example.finalproject.wordle.game.WordleGame;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEvent;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
 import com.example.finalproject.wordle.game.WordleGameManager;
+import com.example.finalproject.wordle.sensor.ElevationSensor;
+import com.example.finalproject.wordle.sensor.event.ElevationSensorChangedEvent;
+import com.example.finalproject.wordle.sensor.event.ElevationSensorListener;
 import com.example.finalproject.wordle.ui.WordleTextField;
 import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
@@ -36,12 +42,14 @@ import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
 import java.util.ArrayList;
 
-public class GameActivity extends AppCompatActivity implements WordleKeyboardListener
+public class GameActivity extends AppCompatActivity implements WordleKeyboardListener, ElevationSensorListener
 {
     private WordleGame wordleGame;
     private WordleKeyboard keyboard;
 
+    private ElevationSensor elevationSensor;
     private ArrayList<WordleTextField> attemptTextFields;
+
 
 
     @Override
@@ -151,6 +159,15 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
 
         winMessageView.setVisibility(View.INVISIBLE);
     }
+
+    private void initElevationSensor()
+    {
+        if(elevationSensor != null) return;
+
+        elevationSensor = new ElevationSensor(this);
+        elevationSensor.addChangeListener(this);
+    }
+
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
     {
         for(WordleGame.CharacterStatus status : characterStatuses)
@@ -516,5 +533,11 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
                 addCharToAttempt(charCode.value());
                 break;
         }
+    }
+
+    @Override
+    public void onElevationChanged(ElevationSensorChangedEvent event)
+    {
+
     }
 }
