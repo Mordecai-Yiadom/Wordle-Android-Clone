@@ -2,20 +2,13 @@ package com.example.finalproject;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.transition.Visibility;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.CycleInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -31,9 +24,9 @@ import com.example.finalproject.wordle.game.WordleGame;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardKeyPressedEvent;
 import com.example.finalproject.wordle.event.keyboard.WordleKeyboardListener;
 import com.example.finalproject.wordle.game.WordleGameManager;
-import com.example.finalproject.wordle.sensor.ElevationSensor;
-import com.example.finalproject.wordle.sensor.event.ElevationSensorChangedEvent;
-import com.example.finalproject.wordle.sensor.event.ElevationSensorListener;
+import com.example.finalproject.wordle.sensor.LightSensor;
+import com.example.finalproject.wordle.sensor.event.LightSensorChangedEvent;
+import com.example.finalproject.wordle.sensor.event.LightSensorListener;
 import com.example.finalproject.wordle.ui.WordleTextField;
 import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
@@ -42,12 +35,12 @@ import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
 import java.util.ArrayList;
 
-public class GameActivity extends AppCompatActivity implements WordleKeyboardListener, ElevationSensorListener
+public class GameActivity extends AppCompatActivity implements WordleKeyboardListener, LightSensorListener
 {
     private WordleGame wordleGame;
     private WordleKeyboard keyboard;
 
-    private ElevationSensor elevationSensor;
+    private LightSensor lightSensor;
     private ArrayList<WordleTextField> attemptTextFields;
 
 
@@ -69,6 +62,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         initTextFields();
         initKeyboard();
         initWinMessage();
+        initElevationSensor();
     }
 
     private void initWordleGame()
@@ -162,10 +156,10 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
 
     private void initElevationSensor()
     {
-        if(elevationSensor != null) return;
+        if(lightSensor != null) return;
 
-        elevationSensor = new ElevationSensor(this);
-        elevationSensor.addChangeListener(this);
+        lightSensor = new LightSensor(this);
+        lightSensor.addChangeListener(this);
     }
 
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
@@ -536,8 +530,9 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
     }
 
     @Override
-    public void onElevationChanged(ElevationSensorChangedEvent event)
+    public void onLuxLevelChanged(LightSensorChangedEvent event)
     {
-
+        Button button = findViewById(R.id.gamemodeButton);
+        button.setText(String.format("%.2f", event.getNewLuxLevel()));
     }
 }
