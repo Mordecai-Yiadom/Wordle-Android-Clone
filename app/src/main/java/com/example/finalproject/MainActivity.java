@@ -28,6 +28,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.finalproject.wordle.game.WordleGameManager;
+import com.example.finalproject.wordle.sensor.LightSensor;
 import com.example.finalproject.wordle.ui.animation.WordleColorFadeAnimation;
 import com.example.finalproject.wordle.ui.animation.WordleEmphasisAnimation;
 
@@ -38,6 +39,7 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity
 {
     private Button playButton;
+    private LightSensor lightSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,20 +53,26 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
 
-        Fade fadeTransition = new Fade(Visibility.MODE_OUT);
-        fadeTransition.setDuration(1000);
-        getWindow().setExitTransition(fadeTransition);
 
+        initLightSensor();
 
-
-        //Load wordle words TXT file
+        //Load wordle default words TXT file
         WordleGameManager.setDefaultWords(loadTextFile(R.raw.wordle_default_words));
+
+        //Load wordle hard words TXT file
+        WordleGameManager.setHardWords(loadTextFile(R.raw.wordle_hard_words));
 
         //Init Homepage activity UI members
         initPlayButton();
 
         //Starts the color fading animation
         startColorFadingAnimation();
+    }
+
+    private void initLightSensor()
+    {
+        if(lightSensor == null)
+            lightSensor = new LightSensor(this);
     }
 
     private void initPlayButton()
@@ -75,13 +83,35 @@ public class MainActivity extends AppCompatActivity
         {
             WordleEmphasisAnimation emphasisAnimation = new WordleEmphasisAnimation(playButton,
                     2, 1000, 120.0f, 50.0f);
+            emphasisAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationEnd(Animation animation)
+                {
+                    transitionToGameActivity();
+                }
 
+                @Override
+                public void onAnimationRepeat(Animation animation)
+                {
+
+                }
+
+                @Override
+                public void onAnimationStart(Animation animation)
+                {
+
+                }
+            });
             view.startAnimation(emphasisAnimation);
-            Intent intent = new Intent(MainActivity.this, GameActivity.class);
-            startActivity(intent);
         });
+    }
+    private void transitionToGameActivity()
+    {
+        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        startActivity(intent);
 
-
+        lightSensor.destroy();
+        lightSensor = null;
     }
 
     private InputStream loadRawFileResource(int resourceId)

@@ -35,14 +35,13 @@ import com.example.finalproject.wordle.ui.keyboard.WordleKeyboardKey;
 
 import java.util.ArrayList;
 
-public class GameActivity extends AppCompatActivity implements WordleKeyboardListener, LightSensorListener
+public class GameActivity extends AppCompatActivity implements WordleKeyboardListener
 {
     private WordleGame wordleGame;
     private WordleKeyboard keyboard;
 
     private LightSensor lightSensor;
     private ArrayList<WordleTextField> attemptTextFields;
-
 
 
     @Override
@@ -57,17 +56,36 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             return insets;
         });
 
+        initLightSensor();
+
         initWordleGame();
         initToolbar();
         initTextFields();
         initKeyboard();
         initWinMessage();
-        initElevationSensor();
+
     }
 
     private void initWordleGame()
     {
-        this.wordleGame = WordleGameManager.createRandomGame();
+        float difficultyThreshold = 200f;
+        WordleGameManager.GameMode gameMode;
+        Button gamemodeButton = findViewById(R.id.gamemodeButton);
+
+        if(lightSensor.getCurrentLuxLevel() < difficultyThreshold)
+        {
+            gameMode = WordleGameManager.GameMode.HARD;
+            gamemodeButton.setBackgroundColor(getColor(R.color.wordle_dark_red));
+            gamemodeButton.setText("HARD");
+        }
+        else
+        {
+            gameMode = WordleGameManager.GameMode.NORMAL;
+            gamemodeButton.setBackgroundColor(getColor(R.color.wordle_green));
+            gamemodeButton.setText("NORMAL");
+        }
+
+        this.wordleGame = WordleGameManager.createRandomGame(gameMode);
     }
     private void initKeyboard()
     {
@@ -154,13 +172,13 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         winMessageView.setVisibility(View.INVISIBLE);
     }
 
-    private void initElevationSensor()
+    private void initLightSensor()
     {
-        if(lightSensor != null) return;
-
-        lightSensor = new LightSensor(this);
-        lightSensor.addChangeListener(this);
+        if(lightSensor == null)
+            lightSensor = new LightSensor(this);
     }
+
+
 
     private boolean checkAttemptIsCorrect(ArrayList<WordleGame.CharacterStatus> characterStatuses)
     {
@@ -283,9 +301,7 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         timer.addListener(new Animator.AnimatorListener()
         {
             @Override
-            public void onAnimationCancel(@NonNull Animator animation) {
-
-            }
+            public void onAnimationCancel(@NonNull Animator animation) {}
 
             @Override
             public void onAnimationEnd(@NonNull Animator animation) {
@@ -293,14 +309,10 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
             }
 
             @Override
-            public void onAnimationRepeat(@NonNull Animator animation) {
-
-            }
+            public void onAnimationRepeat(@NonNull Animator animation) {}
 
             @Override
-            public void onAnimationStart(@NonNull Animator animation) {
-
-            }
+            public void onAnimationStart(@NonNull Animator animation) {}
         });
 
         timer.start();
@@ -501,6 +513,9 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
     {
         Intent intent = new Intent(GameActivity.this, MainActivity.class);
         startActivity(intent);
+
+        lightSensor.destroy();
+        lightSensor = null;
     }
 
 
@@ -529,10 +544,5 @@ public class GameActivity extends AppCompatActivity implements WordleKeyboardLis
         }
     }
 
-    @Override
-    public void onLuxLevelChanged(LightSensorChangedEvent event)
-    {
-        Button button = findViewById(R.id.gamemodeButton);
-        button.setText(String.format("%.2f", event.getNewLuxLevel()));
-    }
+
 }

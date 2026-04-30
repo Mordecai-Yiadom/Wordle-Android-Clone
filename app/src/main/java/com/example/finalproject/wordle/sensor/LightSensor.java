@@ -13,8 +13,7 @@ import com.example.finalproject.wordle.sensor.event.LightSensorListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LightSensor implements SensorEventListener
-{
+public class LightSensor implements SensorEventListener {
     private Sensor lightSensor;
 
     private float currentLuxLevel;
@@ -23,12 +22,14 @@ public class LightSensor implements SensorEventListener
     private static final float DEFAULT_LUX = 0;
     private static final int SENSOR_TYPE = Sensor.TYPE_LIGHT;
 
+    public static final float MAX_LUX_LEVEL = 40_000;
+
+    private static float GLOBAL_LUX_LEVEL = 0;
+
     private List<LightSensorListener> changeListeners;
 
 
-
-    public LightSensor(Activity activity)
-    {
+    public LightSensor(Activity activity) {
 
         changeListeners = new ArrayList<>();
         currentLuxLevel = DEFAULT_LUX;
@@ -37,20 +38,19 @@ public class LightSensor implements SensorEventListener
         lightSensor = sensorManager.getDefaultSensor(SENSOR_TYPE);
 
         sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        currentLuxLevel = GLOBAL_LUX_LEVEL;
+
     }
 
-    public void addChangeListener(LightSensorListener listener)
-    {
+    public void addChangeListener(LightSensorListener listener) {
         changeListeners.add(listener);
     }
 
-    public void removeChangeListener(LightSensorListener listener)
-    {
+    public void removeChangeListener(LightSensorListener listener) {
         changeListeners.remove(listener);
     }
 
-    public float getCurrentLuxLevel()
-    {
+    public float getCurrentLuxLevel() {
         return currentLuxLevel;
     }
 
@@ -84,5 +84,6 @@ public class LightSensor implements SensorEventListener
 
         notifyChangeListeners(new LightSensorChangedEvent(this, currentLuxLevel, newLuxLevel));
         currentLuxLevel = newLuxLevel;
+        GLOBAL_LUX_LEVEL = newLuxLevel;
     }
 }

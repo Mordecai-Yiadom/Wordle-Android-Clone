@@ -981,7 +981,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="0dp"
-                android:text="EASY"
+                android:text="MODE"
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:cornerRadius="5dp"
